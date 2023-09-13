@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Access Failed!</title>
+{% endblock %}
+
+{% block header %}
+    <h1>Access Failed!</h1>
+{% endblock %}
+
+{% block content %}
+    <h3>
+        <div>To see this page you need to <a href="{% url 'logout_page' %}">logout</a></div>
+        <div>Or you can return to main page <a href="{% url 'root_page' %}">GO</a></div>
+    </h3>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

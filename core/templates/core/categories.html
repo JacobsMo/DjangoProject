@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Categories</title>
+{% endblock %}
+
+{% block header %}
+    <h1>Categories</h1>
+{% endblock %}
+
+{% block content %}
+    {% if not request.session.keys %}
+        <div><a href="{% url 'auth_page' %}">Login</a></div>
+    {% endif %}
+    <div>
+        {% for category in categories %}
+            <div>
+                <div>
+                    <h4><a href="{% url 'products_page' category.name %}">{{ category.name }}</a></h4>
+                </div>
+                <div>
+                    <span>Description: </span>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

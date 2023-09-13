@@ -1,0 +1,84 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/sources/
+    environment:
+      - DJANGO_SUPERUSER_PASSWORD=27474129
+    command: sh -c "python3 manage.py test . && python3 manage.py migrate && python3 manage.py createsuperuser --email=admin@admin.com --noinput && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - postgres
+      - adminer
+      - redis
+    networks:
+      net:
+        ipv4_address: 192.168.220.2
+  
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "27474129"
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_INITDB_ARGS: "-A md5"
+    ports:
+      - '54324:5432'
+    networks:
+      net:
+        ipv4_address: 192.168.220.4
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    depends_on:
+      - postgres
+    networks:
+      net:
+        ipv4_address: 192.168.220.6
+  
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      net:
+        ipv4_address: 192.168.220.10
+  
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: .
+    command: ["celery", "-A", "djangoproject", "worker", "-l", "info"]
+    links:
+      - redis
+      - postgres:postgres
+    depends_on:
+      - redis
+      - postgres
+      - adminer
+      - app
+    volumes:
+      - .:/sources/
+    networks:
+      net:
+          ipv4_address: 192.168.220.11
+
+networks:
+  net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.220.0/24

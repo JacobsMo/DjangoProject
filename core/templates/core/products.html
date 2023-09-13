@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Products</title>
+    <link rel="stylesheet" href="{% static 'core/css/products_styles.css' %}">
+    <script type="text/javascript" src="https://js.stripe.com/v3"></script>
+    <script src="jquery-3.6.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    <h1>Products</h1>
+{% endblock %}
+
+{% block content %}
+    {% if not request.session.keys %}
+        <div><a href="{% url 'auth_page' %}">Login</a></div>
+    {% endif %}
+    <div>
+        {% for product in products %}
+            <div class="product" id="{{ product.pk }}">
+                <div>
+                    <h4>{{ product.name }}</h4>
+                </div>
+                <div>
+                    <span>Description: </span>
+                    <p>{{ product.description }}</p>
+                </div>
+                <div>
+                    <span>Quantity: </span>
+                    <span>{{ product.quantity }}</span>
+                </div>
+                <div>
+                    <span>{{ product.price }} $</span>
+                </div>
+                <button onclick="send_product_data({{product.pk}}, 
+                '{{product.name}}', '{{product.description}}', {{product.quantity}}, {{product.price}})">Buy</button>
+            </div>
+            <br>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'core/js/products_scripts.js' %}"></script>
+{% endblock %}

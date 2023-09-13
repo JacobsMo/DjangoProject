@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Auth</title>
+{% endblock %}
+
+{% block header %}
+    <h1>Authentication</h1>
+{% endblock %}
+
+{% block content %}
+    <div><a href="{% url 'reg_page' %}">Still haven`t an account...</a></div>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                {{ form.errors }}
+            </div>
+            <div>
+                <span>Email: </span>
+                <span>{{ form.username }}</span>
+            </div>
+            <div>
+                <span>Password: </span>
+                <span>{{ form.password }}</span>
+            </div>
+            <button type="submit">Auth</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

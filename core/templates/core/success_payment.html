@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Success</title>
+    <link rel="stylesheet" href="{% static 'core/css/success_payment_styles.css' %}">
+    <script src="jquery-3.6.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    <h1>Success</h1>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div>
+            <a href="{% url 'root_page' %}">Go to main page...</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'core/js/success_payment_scripts.js' %}"></script>
+{% endblock %}
